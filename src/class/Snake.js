@@ -20,7 +20,7 @@ export class Snake extends Square {
         /** @type {Coor[]} */
         this.tail = []
         this.#createFood()
-        this.tailSize = 30
+        this.tailSize = 0
         /** @type {direction} */
         this.direction = 'horizontal'
     }
