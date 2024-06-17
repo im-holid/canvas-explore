@@ -1,28 +1,28 @@
-import { Circle } from "./class/Circle";
-import { UglyStar } from "./class/UglyStar";
-import { generateNonOverlapingCircle } from "./helper/circleHelper";
-import { mapNumber } from "./helper/common";
+import { Grid, Snake } from "./class";
+import { loadMinecraftFont } from "./helper/fontHelper";
 
-/** @param {CanvasRenderingContext2D} ctx */
-export const app = (ctx) => {
-  let frameId;
 
-  /** @type {UglyStar[]} */
-  const arrayCircle = [];
-  for (let i = 0; i < 10; i++) {
-    arrayCircle.push(new UglyStar(ctx));
-  }
-
-  const animate = async () => {
+/**
+ * 
+ * @param {Object} param 
+ * @param {CanvasRenderingContext2D} param.ctx
+ * @param {number} param.frameId
+ */
+export const app = async ({ ctx, frameId }) => {
+  await loadMinecraftFont()
+  const size = 30
+  const square = new Snake(size, ctx)
+  const grid = new Grid(size, ctx)
+  const animate = async (frameId) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    arrayCircle.map((v) => {
-      v.show();
-      // v.update();
-    });
-
-    // frameId = requestAnimationFrame(() => animate());
+    ctx.fillRect(0, 0, ctx.canvas.width - ctx.canvas.width % size, ctx.canvas.height - ctx.canvas.height % size);
+    // grid.draw()
+    square.draw()
+    frameId.current = requestAnimationFrame(() => animate(frameId));
   };
-  animate();
+  animate(frameId);
 };
+
+
+

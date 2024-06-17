@@ -1,4 +1,4 @@
-import { mapNumber, minMaxRandom } from "../helper/common";
+import { interpolateNumber, minMaxRandom } from "../helper/common";
 
 export class UglyStar {
   /**
@@ -16,7 +16,7 @@ export class UglyStar {
 
   update() {
     const ctx = this.ctx;
-    // this.line = this.z;
+    this.line = this.z;
     this.z -= 20;
     if (this.z < 1) {
       this.z = ctx.canvas.width;
@@ -28,8 +28,8 @@ export class UglyStar {
 
   tail(sx, sy) {
     const ctx = this.ctx;
-    const tx = mapNumber((this.x - ctx.canvas.width / 2) / this.line, 0, 1, ctx.canvas.width / 2, ctx.canvas.width);
-    const ty = mapNumber((this.y - ctx.canvas.height / 2) / this.line, 0, 1, ctx.canvas.height / 2, ctx.canvas.height);
+    const tx = interpolateNumber((this.x - ctx.canvas.width / 2) / this.line, 0, 1, ctx.canvas.width / 2, ctx.canvas.width);
+    const ty = interpolateNumber((this.y - ctx.canvas.height / 2) / this.line, 0, 1, ctx.canvas.height / 2, ctx.canvas.height);
     ctx.beginPath();
     ctx.moveTo(sx, sy);
     ctx.lineTo(tx, ty);
@@ -39,9 +39,8 @@ export class UglyStar {
 
   show() {
     const ctx = this.ctx;
-    const sx = mapNumber((this.x - ctx.canvas.width / 2) / this.z, 0, 1, ctx.canvas.width / 2, ctx.canvas.width);
-    const sy = mapNumber((this.y - ctx.canvas.height / 2) / this.z, 0, 1, ctx.canvas.height / 2, ctx.canvas.height);
-    console.log(ctx.canvas.width, sx, ctx.canvas.height, sy);
+    const sx = interpolateNumber((this.x - ctx.canvas.width / 2) / this.z, 0, 1, ctx.canvas.width / 2, ctx.canvas.width);
+    const sy = interpolateNumber((this.y - ctx.canvas.height / 2) / this.z, 0, 1, ctx.canvas.height / 2, ctx.canvas.height);
     const size = ((ctx.canvas.width - this.z) / ctx.canvas.width) * this.radius;
     ctx.fillStyle = "#fff";
     ctx.strokeStyle = "#fff";

@@ -1,36 +1,75 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
 import { app } from "./app";
+import { app3d } from "./app3d";
 
 const App = () => {
+  /**
+   * @type {React.MutableRefObject<HTMLCanvasElement | null>}
+   * This ref holds a reference to the HTMLCanvasElement or null if the canvas is not yet rendered.
+   */
+  const canvasRef = useRef(null);
+  const frameId = useRef(null);
+
   useEffect(() => {
-    main();
+    let resizeEvent;
+
+    const setup = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      resizeCanvas();
+      main(canvas, frameId);
+
+      resizeEvent = () => {
+        if (frameId.current) {
+          cancelAnimationFrame(frameId.current);
+          frameId.current = null;
+        }
+        resizeCanvas();
+        main(canvas, frameId);
+      };
+      window.addEventListener("resize", resizeEvent);
+    };
+
+    setup();
+
+    return () => {
+      window.removeEventListener("resize", resizeEvent);
+      if (frameId.current) {
+        cancelAnimationFrame(frameId.current);
+        frameId.current = null;
+      }
+    };
   }, []);
 
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  };
+
   return (
-    <div className="w-[100vw] h-[100vh]">
-      <canvas
-        //
-        className=""
-        //
-      ></canvas>
+    <div className="w-full h-full">
+      <canvas ref={canvasRef} />
     </div>
   );
 };
 
 export default App;
 
-const main = async () => {
-  const { innerHeight, innerWidth } = window;
-  const canvas = document.querySelector("canvas");
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
+/**
+ *
+ * @param {HTMLCanvasElement} canvas
+ * @param {number} frameId
+ */
+const main = async (canvas, frameId) => {
   const ctx = canvas.getContext("2d");
-  // window.addEventListener("resize", (event) => {
-  //   const width = event?.target?.innerWidth;
-  //   const height = event?.target?.innerHeight;
-  //   canvas.width = width;
-  //   canvas.height = height;
-  // });
-  app(ctx);
+  app({ ctx, frameId });
+};
+
+/** @param {HTMLCanvasElement} canvas */
+const main3d = async (canvas) => {
+  const ctx = canvas.getContext("webgl");
+  app3d(ctx);
 };
