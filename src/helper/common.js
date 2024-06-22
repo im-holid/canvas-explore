@@ -20,7 +20,7 @@ export function minMaxRandom({ min = 1, max = 1 }) {
 }
 
 /**
- *
+ * interpolate number, best used for negative output postiveoutput
  * @param {number} input
  * @param {number} inMin
  * @param {number} inMax

@@ -12,7 +12,7 @@ export const loadMinecraftFont = async () => {
 }
 
 /**
- * 
+ * autimatically read break line since canvas doesnt provide it, also center between word
  * @param {CanvasRenderingContext2D} context 
  * @param {string} text 
  * @param {number} x 

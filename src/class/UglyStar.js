@@ -37,7 +37,7 @@ export class UglyStar {
     ctx.closePath();
   }
 
-  show() {
+  draw() {
     const ctx = this.ctx;
     const sx = interpolateNumber((this.x - ctx.canvas.width / 2) / this.z, 0, 1, ctx.canvas.width / 2, ctx.canvas.width);
     const sy = interpolateNumber((this.y - ctx.canvas.height / 2) / this.z, 0, 1, ctx.canvas.height / 2, ctx.canvas.height);
@@ -49,5 +49,10 @@ export class UglyStar {
     ctx.fill();
     ctx.closePath();
     this.tail(sx, sy);
+  }
+  show() {
+    this.draw()
+    this.tail()
+    this.update()
   }
 }

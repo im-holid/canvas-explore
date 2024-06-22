@@ -10,6 +10,8 @@ import { getRandomHSLColor } from "./common";
  * @param {number} params.canvasHeight
  * @param {number} params.maxSpeed
  * @param {number} params.minSpeed
+ * @param {number} params.minMass
+ * @param {number} params.maxMass
  * @returns {rawCircle[]}
  */
 export function generateNonOverlapingCircle({
