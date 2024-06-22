@@ -1,28 +1,26 @@
-import { Circle } from "./class/Circle";
-import { UglyStar } from "./class/UglyStar";
-import { generateNonOverlapingCircle } from "./helper/circleHelper";
-import { mapNumber } from "./helper/common";
 
-/** @param {CanvasRenderingContext2D} ctx */
-export const app = (ctx) => {
-  let frameId;
+import { RainRect } from "./class";
+import { loadMinecraftFont } from "./helper/fontHelper";
 
-  /** @type {UglyStar[]} */
-  const arrayCircle = [];
-  for (let i = 0; i < 10; i++) {
-    arrayCircle.push(new UglyStar(ctx));
-  }
 
-  const animate = async () => {
+/**
+ * 
+ * @param {Object} param 
+ * @param {CanvasRenderingContext2D} param.ctx
+ * @param {number} param.frameId
+ */
+export const app = async ({ ctx, frameId }) => {
+  await loadMinecraftFont()
+  const rain = new RainRect({ ctx, color: '#800080' })
+  const animate = async (frameId) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    arrayCircle.map((v) => {
-      v.show();
-      // v.update();
-    });
-
-    // frameId = requestAnimationFrame(() => animate());
+    rain.draw()
+    frameId.current = requestAnimationFrame(() => animate(frameId));
   };
-  animate();
+  animate(frameId);
 };
+
+
+

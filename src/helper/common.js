@@ -20,7 +20,7 @@ export function minMaxRandom({ min = 1, max = 1 }) {
 }
 
 /**
- *
+ * interpolate number, best used for negative output postiveoutput
  * @param {number} input
  * @param {number} inMin
  * @param {number} inMax
@@ -28,7 +28,7 @@ export function minMaxRandom({ min = 1, max = 1 }) {
  * @param {number} outMax
  * @returns {number}
  */
-export function mapNumber(input, inMin, inMax, outMin, outMax) {
+export function interpolateNumber(input, inMin, inMax, outMin, outMax) {
   // Check for range validity (optional)
   if (inMin >= inMax || outMin >= outMax) {
     throw new Error("Invalid input or output ranges");
